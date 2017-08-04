@@ -14,9 +14,9 @@ specified in `POSCAR-original`.
 
 ## Instructions for generating thermal data
 
-The instructions below apply to both folders; `2H` and `1Tp`
+The instructions below apply to both folders `2H` and `1Tp`
 
-### Generating `FORCE_CONSTANTS`
+### 1. Generating `FORCE_CONSTANTS`
 
 To compute any thermal properties, you must first generate a
 `FORCE_CONSTANTS` file, which is computed from the `vasprun.xml`
@@ -26,7 +26,7 @@ output of VASP. Run the following to generate:
 $ phonopy --fc vasprun.xml
 ```
 
-### Plotting the phonon density of states (PDOS)
+### 2. Plotting the phonon density of states (PDOS)
 
 You should now see a `FORCE_CONSTANTS` file in either the `2H` or
 `1Tp` directory.  To generate a plot of PDOS, run the following:
@@ -38,7 +38,7 @@ $ phonopy -p --readfc mesh.conf
 This will automatically generate a plot and a file called
 `total_dos.dat` with the data used to make the plot.
 
-### Generating Free Energy, Entropy, and Heat Capacity
+### 3. Generating free energy, entropy, and heat capacity data
 
 To get these properties and save to a file called `thermal.dat`, run
 the following:
