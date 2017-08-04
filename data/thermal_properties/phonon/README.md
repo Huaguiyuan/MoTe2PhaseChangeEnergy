@@ -7,6 +7,11 @@ This folder includes all phonon-related input files needed to compute:
 
 for both 2H- and 1T'-MoTe2.
 
+The thermal properties are computed using a 2x2x1 supercell from the
+relaxed orthorhombic (2 f.u.) unit cells of 2H- and 1T'-MoTe2. The
+supercell is specified in `POSCAR`, while the original 2 f.u. cell is
+specified in `POSCAR-original`.
+
 ## Instructions for generating thermal data
 
 The instructions below apply to both folders; `2H` and `1Tp`
