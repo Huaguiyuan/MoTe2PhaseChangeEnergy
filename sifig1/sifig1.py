@@ -11,7 +11,7 @@ lws= 6
 f = figure(figsize=(15,12))
 plot(hdos[:,0],hdos[:,1], 'orange',lw=lws)
 plot(tdos[:,0],tdos[:,1], 'g',lw=lws)
-legend(['2H', '1T'],loc=2,fontsize=38)
+legend(['2H', "1T'"],loc=2,fontsize=38)
 xlabel(r'$\omega$ (THz)')
 ylabel(r'PDOS($\omega$) (states/THz/f.u.)')
 xlim(0,9)
