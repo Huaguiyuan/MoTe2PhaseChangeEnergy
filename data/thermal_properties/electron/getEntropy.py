@@ -49,7 +49,7 @@ if __name__ == '__main__':
     else:
         S = getEntropy(folders,T)
         S[isnan(S)] = 0.
-        savetxt(entropyfile, S)
+        savetxt(entropyfile, S*eV_to_meV, header="S_{2H} (meV/K/f.u.)      S_{1Tp} (meV/K/f.u.)")
 
 
     print("S_{2H}(T=300) (with SOC) = %18.12f  [eV/K/f.u.]" %S[30,0])
