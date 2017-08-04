@@ -15,29 +15,27 @@ not provide the OUTCAR files due to their size.
 ## Results
 These calculations implement non-colinear spin-orbit (SOC) coupling,
 just like the rest of the VASP calculations. However, the differences
-in electronic enropy computed with and without SOC are very slight (as
-also shown above).
+in electronic enropy computed with and without SOC are very slight, as
+also shown here:
 
 <img src="./pics/electronicEntropies.png" width=400>
 
 Note also from the above figure that 2H-MoTe2 has a negligible entropy
-contribution for temperatures up to ~900 K, as shown in the figure
-below. This is due to the bandgap of 2H phase MoTe2, so that only at
-very high temperatures do electronic states find their way into the
-conduction band. (A plot of the electronic density of states for 2H
-and 1T' phases is shown below.)
-
+contribution for temperatures up to ~900 K or higher, as shown in the
+figure below. This is due to the bandgap of 2H phase MoTe2, so that
+only at very high temperatures do electronic states find their way
+into the conduction band. To see this, see the below plot of the
+electronic density of states for 2H and 1T' phases
 
 <img src="./pics/EDOS.png" width=400>
 
-
-The entropy difference between the 2H and 1T' phases is shown below
+The entropy difference between the 2H and 1T' phases is shown
+below. It is essentially equal to the 1T' entropy.
 
 <img src="./pics/dS.png" width=400>
 
 
 ## File descriptions
-
 There are 3 Python files in this directory:
 
 - `setup.py`: Generates the 2H and 1Tp folders and `Txxx0`
@@ -49,6 +47,7 @@ There are 3 Python files in this directory:
   figures showing entropy above.
 
 ## Example to run
+To setup folders, do the following:
 
 ```bash
 $ python setup.py folders  # generate temperature folders
