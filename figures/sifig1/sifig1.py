@@ -1,8 +1,8 @@
 from pylab import *
 rcParams.update({'font.size': 48, 'text.usetex': True})
 
-hdos = genfromtxt('2H/total_dos.dat',skip_header=1)
-tdos = genfromtxt('1Tp/total_dos.dat',skip_header=1)
+hdos = genfromtxt('../../data/thermal_properties/phonon/2H/total_dos.dat',skip_header=1)
+tdos = genfromtxt('../../data/thermal_properties/phonon/1Tp/total_dos.dat',skip_header=1)
 
 hdos[:,1] /= 2*2*2 # divide by number f.u. in a cell
 tdos[:,1] /= 2*2*2 # divide by number f.u. in a cell
