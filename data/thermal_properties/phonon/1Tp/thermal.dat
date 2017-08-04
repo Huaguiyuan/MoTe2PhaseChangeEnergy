@@ -1,3 +1,22 @@
+        _
+  _ __ | |__   ___  _ __   ___   _ __  _   _
+ | '_ \| '_ \ / _ \| '_ \ / _ \ | '_ \| | | |
+ | |_) | | | | (_) | | | | (_) || |_) | |_| |
+ | .__/|_| |_|\___/|_| |_|\___(_) .__/ \__, |
+ |_|                            |_|    |___/
+                                     1.11.12
+
+Force constants are read from FORCE_CONSTANTS.
+Python version 3.6.0
+Spglib version 1.9.9
+Mesh sampling mode
+Settings:
+  Sampling mesh: [64 64  1]
+  Supercell: [1 1 1]
+Spacegroup: Pm (6)
+Number of irreducible q-points on sampling mesh: 1024/4096
+Calculating phonons on sampling mesh...
+Calculating thermal properties...
 #      T [K]      F [kJ/mol]    S [J/K/mol]  C_v [J/K/mol]     E [kJ/mol]
        0.000      62.3838279      0.0000000      0.0000000     62.3838279
       10.000      62.3680893      4.4613722      8.1736505     62.4127030
@@ -100,3 +119,9 @@
      980.000    -977.4574556   1598.7194410    595.8973484    589.2875965
      990.000    -993.4749510   1604.7694878    595.9514535    595.2468419
     1000.000   -1009.5526445   1610.7592647    596.0039531    601.2066203
+                 _
+   ___ _ __   __| |
+  / _ \ '_ \ / _` |
+ |  __/ | | | (_| |
+  \___|_| |_|\__,_|
+
