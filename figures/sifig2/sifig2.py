@@ -34,7 +34,7 @@ f = figure(figsize=(15,12))
 plot(T, dS,lw=lws)
 plot(T, dSph,lw=lws)
 plot(T, dSel,lw=lws)
-legend(['$\Delta S_\mathrm{2H} + \Delta S_\mathrm{el}$',
+legend(['$\Delta S_\mathrm{ph} + \Delta S_\mathrm{el}$',
         '$\Delta S_\mathrm{ph}$',
         '$\Delta S_\mathrm{el}$'],
        loc = 2, fontsize=32)
