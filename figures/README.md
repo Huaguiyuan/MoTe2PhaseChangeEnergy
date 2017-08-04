@@ -9,6 +9,20 @@ use data in the folder `../data`. All figures are shown below.
 
 ## Figures
 
+### Figure 1
+<img src="./fig1/fig1.png" width=400>
+
+### Figure 2
+<img src="./fig2/fig2.png" width=400>
+
+### Figure 3
+<img src="./fig3/fig3.png" width=400>
+
+### Figure 4
+<img src="./fig1/fig4.png" width=400>
+
+___
+
 ### SI Figure 1
 <img src="./sifig1/sifig1.png" width=400>
 
