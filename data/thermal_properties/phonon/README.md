@@ -16,6 +16,16 @@ specified in `POSCAR-original`.
 
 The instructions below apply to both folders `2H` and `1Tp`
 
+### 0. Run VASP
+VASP requires as input `INCAR`, `KPOINTS`, `POSCAR`, and `POTCAR`. Due
+to legal issues, we cannot provide the `POTCAR` files, which contain
+the pseudopotentials. Note that we use PBE pseudopotentials for all
+calculations.  The `run.sbatch` file provides an example `slurm`
+script that runs the jobs. These phonon calculations are very
+expensive. On a cluster with 8-core (plus hyperthreading) Intel Xeon
+Phi's and Infiniband, the 2x2x1 unit cell with spin orbit coupling takes around
+48 hours to run on 32 nodes (256 total cores).
+
 ### 1. Generating `FORCE_CONSTANTS`
 
 To compute any thermal properties, you must first generate a
