@@ -4,7 +4,7 @@ Here we elaborate on the computation of the Voltage-excess
 charge diagram for monolayer MoTe2 under conditions of constant
 zero stress. This was done for the capacitor structure shown below.
 
-<center><img src="pics/fig1.png" width="300px"></center>
+<center><img src="pics/fig1.png" width="300px" align="middle"></center>
 
 
 This shows a dielectric of HfO2 of thickness _d_=4.5 nm,
