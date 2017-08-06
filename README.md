@@ -8,9 +8,8 @@ Rehn, D.A., Li, Y., & Reed, E.J. Theoretical potential for low energy consumptio
 electrostatically-induced structural phase transitions in 2D materials. (in preparation).
 ```
 
-In this paper, we compute the energy input required to induce a phase transition via electrostatic gating in monolayer MoTe2. See the video below for a view of how this works.
-
-<p align="center"><img src=figures/fig1/video.gif width=500px></p>
+In this paper, we compute the energy input required to induce a phase
+transition via electrostatic gating in monolayer MoTe2. 
 
 We include 3 top-level directories:
 
