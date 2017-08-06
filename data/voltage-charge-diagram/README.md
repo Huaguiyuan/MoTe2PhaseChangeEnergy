@@ -89,10 +89,7 @@ in Equation 1, we find
 
 ![](pics/eq9.png)
 
-Now we notice that while _Emono_ has a positive dependence
-on _Q_, the other two terms have a negative dependence on _Q_, and
-therefore the second term dominates, giving the negative curvature in
-the grand potential.
+The second term illustrates the quadratic behavior shown in the plot of Phi_G.
 
 
 ## References
