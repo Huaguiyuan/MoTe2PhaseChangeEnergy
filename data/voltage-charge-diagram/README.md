@@ -4,8 +4,7 @@ Here we elaborate on the computation of the Voltage-excess
 charge diagram for monolayer MoTe2 under conditions of constant
 zero stress. This was done for the capacitor structure shown below.
 
-<center><img src="pics/fig1.png" width="300px" align="middle"></center>
-
+<p align="center"><img src="pics/fig1.png" width="300px"></p>
 
 This shows a dielectric of HfO2 of thickness _d_=4.5 nm,
 an Aluminum electrode of work function _W_ = 4.08 eV, and the MoTe2
@@ -27,7 +26,7 @@ The grand potential _\PhiG_ for this case is
 
 The energy _E(Q)_ is shown in the figure labeled **a** and _\Phi_G_ is shown in the figure labeld **b** below
 
-<center><img src="pics/fig2.png" width=600px></center>
+<p align="center"><img src="pics/fig2.png" width=600px></p>
 
 The question now is how we compute the voltage-excess charge diagram
 in the follow-up paper to our original electrostatic gating paper
@@ -51,7 +50,7 @@ Looking at figure **a**, we can intuitively think of the
 Voltage-excess charge diagram below as being the
 derivative of figure **a**.
 
-<center><img src="pics/fig3.png" width=400px></center>
+<p align="center"><img src="pics/fig3.png" width=400px></p>
 
 Of course, we can also write out a full expression for _V_ based on
 Equation 5,
