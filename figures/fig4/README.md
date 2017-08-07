@@ -4,7 +4,7 @@ This folder uses both the Voltage-excess charge data from Figure 1 and
 the entropy data from SI Figure 2. The full phase diagram is shown
 here.
 
-<p align="center"><img src="fig4.png" width=600px></p>
+<p align="center"><img src="./fig4.png" width=600px></p>
 
 To generate this figure, run the following
 
@@ -37,16 +37,16 @@ difference calculated in SI Figure 2.  That integral results in the
 following as a function of temperature T
 
 
-<p align="center"><img src="pics/intdS.png" width=600px></p>
+<p align="center"><img src="pics/intdS.png" width=500px></p>
 
 The left-hand side requires integrating \Delta Q, which looks as follows
 
-<p align="center"><img src="pics/dQ.png" width=600px></p>
+<p align="center"><img src="pics/dQ.png" width=500px></p>
 
 The integral starting at the negative zero-temperature transition
 voltage looks as follows
 
-<p align="center"><img src="pics/intdQ.png" width=600px></p>
+<p align="center"><img src="pics/intdQ.png" width=500px></p>
 
 The next step is to try to match values between the integral
 plots. This ends up resulting in a function that qualitiatively looks
@@ -54,7 +54,7 @@ right, but has 'steps' in it, due to the finite number of values in
 the entropy data, which comes in intervals of 10 K. This step behavior
 is shown below
 
-<p align="center"><img src="pics/TofV.png" width=600px></p>
+<p align="center"><img src="pics/TofV.png" width=500px></p>
 
 After generating these values, we use a smoothing routine to compute a
 more accurate phase transition curve.
