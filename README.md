@@ -16,8 +16,8 @@ We include 3 top-level directories:
 - `data`: All input files and scripts related to generating data
   needed for figures.
 - `figures`: Scripts used to generate figures in the paper. The
-  scripts reference the data in the `data` directory directly (no data
-  is provided in the `figures` folder.
-- `table`: Provides a python file for computing numbers that are found
-  in the table of the paper.
+  scripts reference the data in the `data` directory (no data
+  is provided in the `figures` folder).
+- `table`: Provides a python file for computing values that are found
+  in Table 1 of the paper.
 
