@@ -19,7 +19,7 @@ use data in the folder `../data`. All figures are shown below.
 <img src="./fig3/fig3.png" width=400>
 
 ### Figure 4
-<img src="./fig1/fig4.png" width=400>
+<img src="./fig4/fig4.png" width=400>
 
 ___
 
