@@ -23,6 +23,11 @@ print("  V_{1T'}(Q) = %8g + %8g x sigma  (all sigma)" %(vtp,ptp))
 def findnearest(array,value):
     return abs(array-value).argmin()
 
+# Transition voltages at 0K
+# Vt1 = -1.6
+# Vt2 = 4.4
+
+# Transition voltages at 300K
 Vt1 = -1.05
 Vt2 = 3.23
 
@@ -73,4 +78,3 @@ ylim(-3,6)
 xlabel(r'$\sigma$ ($e$/f.u.)')
 ylabel(r'$V$ (V)')
 savefig('fig1b.png', dpi=300,bbox_inches='tight')
-#show()
