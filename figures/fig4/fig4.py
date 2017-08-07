@@ -158,10 +158,20 @@ def smoothTofV(T,V):
 
     return Treturn, Vreturn
 
+def print_Vt_T300K(Tnew, Vnew):
+    """
+    Computes the T=300 K transition voltage from the smoothed T-V diagram
+    Does not return a value; just prints the values to the screen
+    """
+    Vt1 = Vnew[Vnew<0][Tnew[Vnew<0] <= 300][-1]
+    Vt2 = Vnew[Vnew>0][Tnew[Vnew>0] <= 300][0]
+    print("Transition Voltages:\n\tVt1(295K) = %8g\n\tVt2(295K) = %8g" %(Vt1,Vt2))
+
 
 if __name__ == '__main__':
-    testing = False
-
+    plotSupFigs = False  # Option to plot supporting figures
+    plotFigure4 = True   # Option to plot Figure 4
+    
     thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
     thermaltp = '../../data/thermal_properties/phonon/1Tp/thermal.dat'
     elentropy = '../../data/thermal_properties/electron/entropy.dat'
@@ -177,6 +187,8 @@ if __name__ == '__main__':
     TofV = computeTofV(intdS, intdQ, T, V)
     Tnew, Vnew = smoothTofV(TofV,V)
 
+    print_Vt_T300K(Tnew,Vnew)
+    
     # Generate fill between data for green portion of graph
     V0=-1.6
     Vf=4.22538
@@ -187,20 +199,21 @@ if __name__ == '__main__':
     x       = concatenate([Vbefore,Vnew,Vafter])
 
     # Create figure of T-V phase diagram
-    lws=8
-    f = figure()
-    plot(Vnew,Tnew,linewidth=8)
-    fill(Vnew,Tnew,color='b',alpha=0.25)
-    fill_between(x,bottom,top,color='g', alpha=0.25)
-    ylim(0,800)
-    xlim(-3,5)
-    xlabel('Voltage (V)')
-    ylabel('Temperature (K)')
-    text(1.6,340,'2H',fontsize=40)
-    text(3.4,480,"1T'",fontsize=40)
-    savefig('fig4.png',dpi=300,bbox_inches='tight')
+    if plotFigure4:
+        lws=8
+        f = figure()
+        plot(Vnew,Tnew,linewidth=8)
+        fill(Vnew,Tnew,color='b',alpha=0.25)
+        fill_between(x,bottom,top,color='g', alpha=0.25)
+        ylim(0,800)
+        xlim(-3,5)
+        xlabel('Voltage (V)')
+        ylabel('Temperature (K)')
+        text(1.6,340,'2H',fontsize=40)
+        text(3.4,480,"1T'",fontsize=40)
+        savefig('fig4.png',dpi=300,bbox_inches='tight')
 
-    if testing:
+    if plotSupFigs:
         figure()
         plot(T, intdS,lw=lws)
         xlim(0,1050)
