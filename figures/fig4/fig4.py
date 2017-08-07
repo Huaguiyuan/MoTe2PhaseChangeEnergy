@@ -160,7 +160,7 @@ def smoothTofV(T,V):
 
 
 if __name__ == '__main__':
-    testing = True
+    testing = False
 
     thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
     thermaltp = '../../data/thermal_properties/phonon/1Tp/thermal.dat'
