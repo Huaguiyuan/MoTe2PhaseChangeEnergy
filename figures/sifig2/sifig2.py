@@ -29,6 +29,12 @@ dSph /= 2*2*2       # eV/K/f.u.
 dSph *= 1000        # meV/K/f.u.
 dS = dSph + dSel
 
+print("dSph(300K) = %8g meV/K/f.u." %dSph[30])
+print("dSph(690K) = %8g meV/K/f.u." %dSph[69])
+
+print("dSel(300K) = %8g meV/K/f.u." %dSel[30])
+print("dSel(690K) = %8g meV/K/f.u." %dSel[69])
+
 lws=6
 f = figure(figsize=(15,12))
 plot(T, dS,lw=lws)
