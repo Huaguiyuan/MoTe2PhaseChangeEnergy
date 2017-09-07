@@ -29,7 +29,7 @@ def findnearest(array,value):
 
 # Transition voltages at 300K
 Vt1 = -1.05
-Vt2 = 3.23
+Vt2 = 3.51
 
 sigmalower1=sigma[findnearest(v1tp,Vt1)]
 sigmalower2=sigma[findnearest(v2h,Vt1)]
@@ -64,17 +64,15 @@ fill_between(sigma, -3, 6, where=((sigma>=sigmalower1) & (sigma <= sigmalower2))
 fill_between(sigma, -3, 6, where=((sigma>=sigmalower2) & (sigma <= sigmaupper1)),color='b',alpha=al)
 fill_between(sigma, -3, 6, where=((sigma>=sigmaupper1) & (sigma <= sigmaupper2)),color='r',alpha=al)
 fill_between(sigma, -3, 6, where=((sigma>=sigmaupper2)),color='g',alpha=al)
-# text(-0.062, 5.5,"1T'",fontsize=fs)
-# text(-0.04,5.5,"Mixed",fontsize=fs)
-# text(-0.013, 5.5,"2H",fontsize=fs)
-text(-0.015, 4.5,r"$V_t^2(0 \mathrm{K}) = 4.4 \,\mathrm{V}$",fontsize=25) # y= 3.7
-text(-0.015,-2.4,r"$V_t^1(0 \mathrm{K}) = -1.6 \,\mathrm{V}$",fontsize=25)
-text(-0.015, 3.3,r"$V_t^2(300 \mathrm{K}) = 3.2 \,\mathrm{V}$",fontsize=25,color='r')
-text(-0.015,-1.55,r"$V_t^1(300\mathrm{K}) = -1.0 \,\mathrm{V}$",fontsize=25,color='r')
+text(-0.017, 4.5,r"$V_t^2(0 \mathrm{K}) = 4.4 \,\mathrm{V}$",fontsize=30) # y= 3.7
+text(0.009,-2.3,r"$V_t^1(0 \mathrm{K}) = -1.6 \,\mathrm{V}$",fontsize=30)
+text(-0.017, 2.8,r"$V_t^2(300 \mathrm{K}) = 3.5 \,\mathrm{V}$",fontsize=30,color='r')
+text(0.001,-0.9,r"$V_t^1(300\mathrm{K}) = -1.0 \,\mathrm{V}$",fontsize=30,color='r')
 xticks([-0.05,0,0.05,0.1])
 legend(["2H", "1T'"],loc=5,fontsize=38)
 xlim(-0.076, 0.126)
 ylim(-3,6)
 xlabel(r'$\sigma$ ($e$/f.u.)')
 ylabel(r'$V$ (V)')
+tick_params(direction='in', width=3, length=6, right='on', top='on')
 savefig('fig1b.png', dpi=300,bbox_inches='tight')
