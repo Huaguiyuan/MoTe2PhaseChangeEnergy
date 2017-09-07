@@ -81,15 +81,18 @@ def integrate_dQ():
         integral: array of $$\int \Delta Q dV$$
     """
     # Define voltage values
-    V = linspace(-1.6,4.3889,10000)
-
+    #V = linspace(-1.6,4.3889,10000)
+    V = linspace(-1.6,4.5,10000)
+    V_upper = 0.59 # value of V at sigma = 0 (from 2H curve)
+    V_lower = -0.36
+    
     # Compute \Delta Q based on equation for V-Q diagram in fig1:
-    sig2h =  sig2h = zeros(len(V))
-    sig2h[V>0] = (V[V>0]-0.59)/38.8507
-    sig2h[V<0] = (V[V<0]+0.36)/32.8307
+    sig2h = zeros(len(V))
+    sig2h[V>V_upper] = (V[V>V_upper]-0.59)/38.8507
+    sig2h[V<V_lower] = (V[V<V_lower]+0.36)/32.8307
     sigTp = (V - 0.4) / 36.8776
     dQ  = sigTp - sig2h
-
+    
     # Compute integral \int \Delta Q dV
     integral = zeros(len(V))
 
@@ -168,8 +171,31 @@ def print_Vt_T300K(Tnew, Vnew):
     print("Transition Voltages:\n\tVt1(295K) = %8g\n\tVt2(295K) = %8g" %(Vt1,Vt2))
 
 
+def computeQT(V,TV):
+    """
+    Generates a Temperature vs. excess charge phase diagram
+
+    Uses the polynomial (linear) fit of fig1.py. TV values from the TV phase
+    diagram are passed to this function, and the Q(V) fits from fig1.py are used
+    to generate TQ (or Tsigma).
+
+    sigma_2H(V) = (V - 0.59)/38.8507      (V > 0)
+    sigma_2H(V) = (V + 0.36)/32.8307      (V < 0)
+    sigma_Tp(V) = (V - 0.40)/36.8776      (all V)
+
+    """
+
+    q2H = zeros(len(V))
+    q2Hp = (V - 0.59)/38.8507
+    q2Hn = (V + 0.36)/32.8307
+    q2H[q2Hp>=0] = q2Hp[q2Hp>=0] #= (V[V>=0] - 0.59)/38.8507
+    q2H[q2Hn<0]  = q2Hn[q2Hn<0] #(V[V<0] + 0.36)/32.8307
+    q1Tp = (V - 0.40)/36.8776
+ 
+    return q2H, q1Tp
+    
 if __name__ == '__main__':
-    plotSupFigs = False  # Option to plot supporting figures
+    plotSupFigs = True  # Option to plot supporting figures
     plotFigure4 = True   # Option to plot Figure 4
     
     thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
@@ -198,11 +224,17 @@ if __name__ == '__main__':
     top     = 1000*ones(len(bottom))
     x       = concatenate([Vbefore,Vnew,Vafter])
 
+
+
+    q2H, q1Tp = computeQT(Vnew,Tnew)
+    x2 = linspace(-0.1,0.15, len(Vnew))
+    top2 = 1000*ones(len(Vnew))
+    
     # Create figure of T-V phase diagram
     if plotFigure4:
         lws=8
         f = figure()
-        plot(Vnew,Tnew,linewidth=8)
+        plot(Vnew,Tnew,lw=lws)
         fill(Vnew,Tnew,color='b',alpha=0.25)
         fill_between(x,bottom,top,color='g', alpha=0.25)
         ylim(0,800)
@@ -211,8 +243,22 @@ if __name__ == '__main__':
         ylabel('Temperature (K)')
         text(1.6,340,'2H',fontsize=40)
         text(3.4,480,"1T'",fontsize=40)
-        savefig('fig4.png',dpi=300,bbox_inches='tight')
+        savefig('fig4a.png',dpi=300,bbox_inches='tight')
 
+        f = figure()
+        plot(q2H,  Tnew, lw=lws)
+        plot(q1Tp, Tnew, 'g',lw=lws)
+        fill(q2H,  Tnew, color='b',alpha=0.25)
+        fill_between(x2,q1Tp,top2, color='g', alpha=0.25)
+        xticks([-0.05,0,0.05,0.1])
+        xlabel('$\sigma$ (e/f.u.)')
+        ylabel('Temperature (K)')
+        xlim(-0.09,0.125)
+        ylim(0,800)
+        text(0.0,340,'2H',fontsize=40)
+        text(-0.05,480,"1T'",fontsize=40)
+        savefig('fig4b.png',bbox_inches='tight')
+        
     if plotSupFigs:
         figure()
         plot(T, intdS,lw=lws)
