@@ -155,7 +155,7 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="-51.46851"
+     inkscape:cx="-165.66625"
      inkscape:cy="79.835531"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -211,7 +211,7 @@
        xml:space="preserve"
        inkscape:export-xdpi="600"
        inkscape:export-ydpi="600"
-       inkscape:export-filename="/Users/rehnd/Dropbox/Research/Papers/mote2-pcm/figures/fig1/fig1.png"><tspan
+       inkscape:export-filename="/Users/rehnd/Dropbox/Research/Papers/mote2-pcm/github/figures/fig1/fig1.png"><tspan
          style="font-weight:bold;font-size:20px;-inkscape-font-specification:'Source Sans Pro Bold'"
          y="793.76312"
          x="302.03561"
@@ -221,7 +221,8 @@
        id="g5811"
        inkscape:export-xdpi="600"
        inkscape:export-ydpi="600"
-       style="">
+       style=""
+       inkscape:export-filename="/Users/rehnd/Dropbox/Research/Papers/mote2-pcm/github/figures/fig1/fig1.png">
       <text
          sodipodi:linespacing="125%"
          id="text4410"
@@ -5711,6 +5712,9 @@ AAC1/T+3/77DtixyWAAAAABJRU5ErkJggg==
 "
        preserveAspectRatio="none"
        height="265.94757"
-       width="310.36435" />
+       width="310.36435"
+       inkscape:export-filename="/Users/rehnd/Dropbox/Research/Papers/mote2-pcm/github/figures/fig1/fig1.png"
+       inkscape:export-xdpi="600"
+       inkscape:export-ydpi="600" />
   </g>
 </svg>
