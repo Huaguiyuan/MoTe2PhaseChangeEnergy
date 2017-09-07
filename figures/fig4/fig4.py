@@ -116,8 +116,6 @@ def computeTofV(intdS, intdQ, T, V):
         j = find_nearest(intdS,intdQ[i])
         TofV[i] = T[j]
 
-    print("V=0 transition temperature estimate %g K" %max(TofV))
-
     return TofV
 
 def smoothTofV(T,V):
@@ -168,21 +166,25 @@ def print_Vt_T300K(Tnew, Vnew):
     """
     Vt1 = Vnew[Vnew<0][Tnew[Vnew<0] <= 300][-1]
     Vt2 = Vnew[Vnew>0][Tnew[Vnew>0] <= 300][0]
-    print("Transition Voltages:\n\tVt1(295K) = %8g\n\tVt2(295K) = %8g" %(Vt1,Vt2))
+    print("Transition Voltages:\n\tVt1(300K) = %8g\n\tVt2(300K) = %8g" %(Vt1,Vt2))
 
 
 def computeQT(V,TV):
     """
-    Generates a Temperature vs. excess charge phase diagram
+    Generates values for a Temperature vs. excess charge phase diagram
+    
+    Return values:
+        q2H:  charge values for 2H
+        q1Tp: charge values for 1T'
 
-    Uses the polynomial (linear) fit of fig1.py. TV values from the TV phase
-    diagram are passed to this function, and the Q(V) fits from fig1.py are used
-    to generate TQ (or Tsigma).
+    Description:
+        Uses the polynomial (linear) fit of fig1.py. TV values from the TV phase
+        diagram are passed to this function, and the Q(V) fits from fig1.py are used
+        to generate TQ (or Tsigma).
 
-    sigma_2H(V) = (V - 0.59)/38.8507      (V > 0)
-    sigma_2H(V) = (V + 0.36)/32.8307      (V < 0)
-    sigma_Tp(V) = (V - 0.40)/36.8776      (all V)
-
+            sigma_2H(V) = (V - 0.59)/38.8507      (V > 0)
+            sigma_2H(V) = (V + 0.36)/32.8307      (V < 0)
+            sigma_Tp(V) = (V - 0.40)/36.8776      (all V)
     """
 
     q2H = zeros(len(V))
@@ -195,7 +197,7 @@ def computeQT(V,TV):
     return q2H, q1Tp
     
 if __name__ == '__main__':
-    plotSupFigs = True  # Option to plot supporting figures
+    plotSupFigs = False  # Option to plot supporting figures
     plotFigure4 = True   # Option to plot Figure 4
     
     thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
@@ -214,6 +216,8 @@ if __name__ == '__main__':
     Tnew, Vnew = smoothTofV(TofV,V)
 
     print_Vt_T300K(Tnew,Vnew)
+
+    q2H, q1Tp = computeQT(Vnew,Tnew)
     
     # Generate fill between data for green portion of graph
     V0=-1.6
@@ -224,11 +228,13 @@ if __name__ == '__main__':
     top     = 1000*ones(len(bottom))
     x       = concatenate([Vbefore,Vnew,Vafter])
 
-
-
-    q2H, q1Tp = computeQT(Vnew,Tnew)
-    x2 = linspace(-0.1,0.15, len(Vnew))
-    top2 = 1000*ones(len(Vnew))
+    top3 = zeros(len(Tnew))
+    top3 = Tnew #[Tnew2>0] = Tnew2[q1Tp>0]
+    top3 = concatenate([zeros(100),top3,zeros(100)])
+    q2H = concatenate([linspace(-0.1,q2H[0],100),q2H,linspace(q2H[-1],0.15,100)])
+    q1Tp = concatenate([linspace(-0.1,q1Tp[0],100),q1Tp,linspace(q1Tp[-1],0.15,100)])
+    top2 = 1000*ones(len(q2H))
+    Tnew2 = array(concatenate([zeros(100),Tnew,zeros(100)]))
     
     # Create figure of T-V phase diagram
     if plotFigure4:
@@ -243,21 +249,24 @@ if __name__ == '__main__':
         ylabel('Temperature (K)')
         text(1.6,340,'2H',fontsize=40)
         text(3.4,480,"1T'",fontsize=40)
+        tick_params(direction='in', width=3, length=6, right='on', top='on')
         savefig('fig4a.png',dpi=300,bbox_inches='tight')
-
+        
         f = figure()
-        plot(q2H,  Tnew, lw=lws)
-        plot(q1Tp, Tnew, 'g',lw=lws)
-        fill(q2H,  Tnew, color='b',alpha=0.25)
-        fill_between(x2,q1Tp,top2, color='g', alpha=0.25)
+        plot(q2H,  Tnew2, lw=lws)
+        plot(q1Tp, Tnew2, 'g',lw=lws)
+        fill(q2H,  Tnew2, color='b',alpha=0.25)
+        fill_between(q1Tp,Tnew2,top2, color='g', alpha=0.25)
+        fill_between(q2H,Tnew2,top3, color='r', alpha=0.25)
         xticks([-0.05,0,0.05,0.1])
         xlabel('$\sigma$ (e/f.u.)')
         ylabel('Temperature (K)')
         xlim(-0.09,0.125)
         ylim(0,800)
         text(0.0,340,'2H',fontsize=40)
-        text(-0.05,480,"1T'",fontsize=40)
-        savefig('fig4b.png',bbox_inches='tight')
+        text(-0.055,500,"1T'",fontsize=40)
+        tick_params(direction='in', width=3, length=6, right='on', top='on')
+        savefig('fig4b.png',dpi=300,bbox_inches='tight')
         
     if plotSupFigs:
         figure()
