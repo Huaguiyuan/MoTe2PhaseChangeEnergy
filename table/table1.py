@@ -22,7 +22,7 @@ def electrostatic_reverse_T0():
     print( "        = %f [aJ/nm3]\n" %energy)
 
 def electrostatic_forward_T300():
-    energy = 155.285 # meV/K/f.u., computed using fig1
+    energy = 183.53 # meV/K/f.u., computed using fig1
     print( "Electrostatic Energy input (forward bias, T=300K)")
     print( "    Vdq = %f [meV/f.u.]" %energy)
     energy *= (eV*atto/V2H/1000)
