@@ -215,6 +215,11 @@ if __name__ == '__main__':
     TofV = computeTofV(intdS, intdQ, T, V)
     Tnew, Vnew = smoothTofV(TofV,V)
 
+    saveTV = zeros([len(Tnew),2])
+    saveTV[:,0] = Vnew
+    saveTV[:,1] = Tnew
+    savetxt('TV.dat', saveTV)
+    
     print_Vt_T300K(Tnew,Vnew)
 
     q2H, q1Tp = computeQT(Vnew,Tnew)
