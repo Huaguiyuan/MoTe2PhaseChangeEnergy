@@ -22,14 +22,14 @@ def electrostatic_reverse_T0():
     print( "        = %f [aJ/nm3]\n" %energy)
 
 def electrostatic_forward_T300():
-    energy = 183.53 # meV/K/f.u., computed using fig1
+    energy = 197.24 # meV/K/f.u., computed using fig1
     print( "Electrostatic Energy input (forward bias, T=300K)")
     print( "    Vdq = %f [meV/f.u.]" %energy)
     energy *= (eV*atto/V2H/1000)
     print( "        = %f [aJ/nm3]\n" %energy)
 
 def electrostatic_reverse_T300():
-    energy = 33.464 # meV/K/f.u., computed using fig1
+    energy = 33.63 # meV/K/f.u., computed using fig1
     print( "Electrostatic Energy input (reverse bias, T=300K)")
     print( "    Vdq = %f [meV/f.u.]" %energy)
     energy *= (eV*atto/V2H/1000)
@@ -45,19 +45,27 @@ def latent_heat_T300():
 
     Vol = (V2H + V1Tp) / 2.
     T = 300.
-    dSph = 0.043415         # meV/f.u.
-    dSel = 0.00557          # meV/f.u.    
-    thermE_ph = T*dSph/1000 #  eV/f.u.
-    thermE_el = T*dSel/1000 #  eV/f.u.
-    thermE_tot = thermE_ph + thermE_el
-    
+    dStotnegQ = 0.0463745      # meV/f.u. # Comes from SI Figure 4
+    dStotposQ = 0.0369181      # meV/f.u. # Comes from SI Figure 4
+    thermEneg_tot = T*dStotnegQ/1000
+    thermEpos_tot = T*dStotposQ/1000
+
     print( "Latent heat (T=300K)")
-    print( "    TdS_ph = %8f [meV/f.u.]" %(thermE_ph*1000))
-    print( "           = %8f [aJ/nm3]"   %(thermE_ph/Vol * eV * atto))
-    print( "    TdS_el = %8f [meV/f.u.]" %(thermE_el*1000))
-    print( "           = %8f [aJ/nm3]"   %(thermE_el/Vol * eV * atto))
-    print( "    T(dS_ph + dS_el) = %8f [meV/f.u.]" %(thermE_tot*1000))
-    print( "                     = %8f [aJ/nm3]\n"   %(thermE_tot/Vol * eV * atto))
+    print("    Q<0:  TdS = %.4f [meV/f.u.]"%(thermEneg_tot*1000))
+    print("              = %.4f [aJ/nm3]"%(thermEneg_tot/Vol * eV * atto))
+    print("    Q>0:  TdS = %.4f [meV/f.u.]"%(thermEpos_tot*1000))
+    print("              = %.4f [aJ/nm3]\n"%(thermEpos_tot/Vol * eV * atto))
+
+    #dSph = 0.043415           # meV/f.u.
+    # thermE_ph = T*dSph/1000 #  eV/f.u.
+    # thermE_el = T*dSel/1000 #  eV/f.u.
+    # print( "    TdS_ph = %8f [meV/f.u.]" %(thermE_ph*1000))
+    # print( "           = %8f [aJ/nm3]"   %(thermE_ph/Vol * eV * atto))
+    # print( "    TdS_el = %8f [meV/f.u.]" %(thermE_el*1000))
+    # print( "           = %8f [aJ/nm3]"   %(thermE_el/Vol * eV * atto))
+    # print( "    T(dS_ph + dS_el) = %8f [meV/f.u.]" %(thermE_tot*1000))
+    # print( "                     = %8f [aJ/nm3]\n"   %(thermE_tot/Vol * eV * atto))
+
 
 def MoTe2_pure_thermal():
     #-------------------------------------------------------------------
