@@ -24,7 +24,7 @@ xlim(0,1100)
 ylim(0, 0.8)
 xlabel('Temperature (K)')
 ylabel('Specific heat (meV/K/f.u.)')
-savefig('sifig3.png',dpi=300,bbox_inches='tight')
+savefig('sifig5.png',dpi=300,bbox_inches='tight')
 
 print("T=700 K heat capacit of 2H = %g meV/K/f.u."%ch[70])
 print("T=700 K heat capacit of 2H = %g J/K/cm3"%chJcm3[70])
