@@ -31,3 +31,9 @@ ___
 
 ### SI Figure 3
 <img src="./sifig3/sifig3.png" width=400>
+
+### SI Figure 4
+<img src="./sifig4/sifig4.png" width=400>
+
+### SI Figure 5
+<img src="./sifig5/sifig5.png" width=400>
