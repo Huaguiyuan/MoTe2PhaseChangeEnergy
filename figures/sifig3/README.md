@@ -1,17 +1,22 @@
-# SI Figure 3
+# SI Figure 2
 
 This figure relies on the data in
 
-`data/thermal_properties/phonon/2H`.
+`data/thermal_properties/phonon`
 
-Note that the electronic contribution to the heat capacity for the 2H
-phase (plotted here) is negligible in comparison to the phonon entropy.
+and
+
+`data/thermal_properties/electron`,
+
+specifically the `thermal.dat` files in the `2H` and `1Tp`
+directories of the `phonon` folder and the `entropy.dat` file in the
+`electron` folder.
 
 To generate this figure, run
 
 ``` bash
-$ python sifig3.py
+$ python sifig2.py
 ```
 
-![](sifig3.png)
+![](sifig2.png)
 
