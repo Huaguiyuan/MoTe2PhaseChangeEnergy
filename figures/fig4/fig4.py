@@ -1,5 +1,7 @@
 from pylab import *
+from scipy import interpolate
 import scipy.constants as sc
+import os
 rcParams.update({'font.size': 48, 'text.usetex': True})
 
 global vol2H, vol1Tp, eV, mol
@@ -9,7 +11,7 @@ vol1Tp = 0.3551*0.6149*0.698/2 # volume of one formula unit of 2H (in nm^3)
 eV = sc.physical_constants["electron volt"][0]
 mol = sc.N_A
 
-def getTotalEntropy(thermal2h, thermal1tp, elentropy):
+def getTotalEntropy(thermal2h, thermal1tp, elentropy2H, elentropy1Tp):
     """
     Return values:
        T:  Nx1 array containing temperatures (in K)
@@ -23,10 +25,9 @@ def getTotalEntropy(thermal2h, thermal1tp, elentropy):
     # Read files
     thermal_2h    = genfromtxt(thermal2h,  skip_header=20, skip_footer=5)
     thermal_1tp   = genfromtxt(thermal1tp, skip_header=20, skip_footer=5)
-    el_entropy    = genfromtxt(elentropy,  skip_header=1)
 
-    elentropy_2h  = el_entropy[:,0]
-    elentropy_1tp = el_entropy[:,1]
+    elentropy_2h  = genfromtxt(elentropy2H)
+    elentropy_1tp = genfromtxt(elentropy1Tp)
 
     T = thermal_2h[:,0]
 
@@ -35,27 +36,19 @@ def getTotalEntropy(thermal2h, thermal1tp, elentropy):
         print("Error: 2H thermal data size does not match 1T' thermal data size")
         print("size(T)=%g size(thermal_1tp[:,0])=%g"%(size(T), size(thermal_1tp[:,0])))
         exit()
-    elif (size(elentropy_2h) != size(T)):
-        print("Error: 2H thermal data size does not match 2H electronic entropy data size")
-    elif (size(elentropy_1tp) != size(T)):
-        print("Error: 2H thermal data size does not match 1T' electronic entropy data size")
 
     # Fill entropies array with Phonon data (add electron data later)
-    entropies = zeros([len(T),2])
-    entropies[:,0] = thermal_2h[:,2]
-    entropies[:,1] = thermal_1tp[:,2]
+    phonon_entropies = zeros([len(T),2])
+    phonon_entropies[:,0] = thermal_2h[:,2]
+    phonon_entropies[:,1] = thermal_1tp[:,2]
 
     # Unit conversion: thermal_2h and thermal_1tp entropies in   J/K/mol
-    entropies[:,:] /= eV       # eV/K/mol
-    entropies[:,:] /= mol      # eV/K/supercell
-    entropies[:,:] /= nfu      # eV/K/f.u.
-    entropies[:,:] *= 1000.     # meV/K/f.u.
+    phonon_entropies[:,:] /= eV       # eV/K/mol
+    phonon_entropies[:,:] /= mol      # eV/K/supercell
+    phonon_entropies[:,:] /= nfu      # eV/K/f.u.
+    phonon_entropies[:,:] *= 1000.     # meV/K/f.u.
 
-    # Add in electronic entropy, which was already saved in meV/K/f.u.
-    entropies[:,0] += elentropy_2h
-    entropies[:,1] += elentropy_1tp
-
-    return T, entropies
+    return T, phonon_entropies, elentropy_2h, elentropy_1tp
 
 
 def integrate_dS(T,dS):
@@ -99,26 +92,106 @@ def integrate_dQ():
     for i in range(len(V)):
         integral[i] = trapz(dQ[:i], V[:i], dx=(V[1]-V[0]))
 
-    return V, dQ, integral
+    return V, dQ, integral, sig2h, sigTp
 
-def computeTofV(intdS, intdQ, T, V):
+
+def computeTofV(intdQ, T, V, sig2h, sigTp, Sel_2h, Sel_1tp,ch_Sel,T_Sel,Tph,dSph):
     """
     Return values:
         TofV:
     """
+    plotTest = False
 
+    # First interpolate the phonon data to get a smoother function
+    tck = interpolate.splrep(Tph, dSph, s=0)
+    Tsm = linspace(0,1000,1000)
+    dSph_sm = interpolate.splev(Tsm, tck, der=0)
+
+    if plotTest:
+        figure()
+        plot(Tph, dSph, 'o', color='b')
+        plot(Tsm, dSph_sm, 'g')
+        xlabel("Temperature (K)")
+        ylabel("$\Delta S_\mathrm{ph}(T)$ (meV/K/f.u.)")
+        show()
+    
     def find_nearest(array,value):
         return abs(array-value).argmin()
 
-    # Create TofV for temp-voltage charge diagram
+    def getSofT(Q, Q_array, S):
+        dQarray = Q_array[1]-Q_array[0] # Assumes equal spacing of elements
+
+        dQ = Q-Q_array
+
+        if( size(dQ[dQ>0]) == 0 ):
+            # Q is smaller than all values (very negative)
+            #   ==> Take entropy to be entropy of most negative charge value
+            ind1 = 0
+            ind2 = 0
+            x    = 1
+        elif( size(dQ[dQ<0]) == 0 ):
+            # Q is larger than all values (very posiive)
+            #   ==> Take entropy to be entropy of most positive charge value
+            ind1 = -1
+            ind2 = -1
+            x    = 0
+        else:
+            ind1 = argwhere(dQ>0)[-1][0]
+            ind2 = argwhere(dQ<0)[0][0]
+            x    = abs(dQ[ind1]/dQarray)
+
+        return S[:,ind1] + x*(S[:,ind2]-S[:,ind1]) 
+        
+    print("Computing T(V). This may take a while...")
     TofV = zeros(len(V))
-    for i in range(len(TofV)):
-        j = find_nearest(intdS,intdQ[i])
-        TofV[i] = T[j]
+    TdS  = zeros([len(V),2])
+    for i in range(len(intdQ)):
+        if mod(i,500) == 0: print("Iteration %5d of %d"%(i,len(V)))
+        
+        # First get interpolated (in Q direction) values of S_2H, S_1T'
+        S2h_of_T = getSofT(sig2h[i],ch_Sel, Sel_2h)
+        STp_of_T = getSofT(sigTp[i],ch_Sel, Sel_1tp)
 
-    return TofV
+        # Interpolate along T to fit to rough data
+        tck = interpolate.splrep(T, (STp_of_T - S2h_of_T)*1000, s=0)
+        dSel = interpolate.splev(Tsm, tck, der=0)
 
-def smoothTofV(T,V):
+        # Compute \Delta S = \Delta S_ph + \Delta S_el at all values of T
+        dS_sm = dSph_sm + dSel
+
+        
+        if (mod(i,1000) == 0 and plotTest):
+            print(sig2h[i],sigTp[i])
+            
+            figure()
+            #plot(T_Sel, (STp_of_T - S2h_of_T)*1000,'o',color='b')
+            #plot(T_Sel, STp_of_T*1000,'o',color='g')
+            plot(Tsm, dS_sm, 'g')
+            xlim(0,1000)
+            ylim(0,0.06)
+            legend(['2H', '1Tp'],loc=2)
+            show()
+
+
+        # Integrate up to T for each value of T
+        intdS_sm = zeros(len(dS_sm))
+        for j in range(len(Tsm)):
+            intdS_sm[j] = -trapz(dS_sm[:j], Tsm[:j])
+
+            # For visualization of contour
+            # if i == 500:
+            #    figure()
+            #    plot(Tsm, intdS_sm)
+            #    show()
+        
+        # Find the value T for which intdS most closely matches intdQ[i]
+        k = find_nearest(intdS_sm/1000, intdQ[i])
+        TofV[i] = Tsm[k]
+        TdS[i,:] = [Tsm[k], dS_sm[k]]
+
+    return TofV, TdS
+
+def smoothTofV(T,V, TdS):
     """
     Return values:
        Treturn: array of temperatures as function of V
@@ -127,37 +200,44 @@ def smoothTofV(T,V):
        TofV has a step-like character, and this returns a 'smoothed' version of it.
     """
     # Temporary arrays, variables for storage
-    Vnew = []
-    Tnew = []
-    count = 0
-    currT = T[0]
+    #tds = genfromtxt('TdS.dat')
+    #V   = genfromtxt('Vfull.dat')
+ 
+    maxTind = TdS[:,0].argmax()
 
-    for i in range(len(T)):
-        if abs(T[i]-currT) > 1e-3:
-            Tnew.append(currT + (T[i]-currT)/2 )
-            Vnew.append(V[i])
-            currT = T[i]
-            count = 0
-        else:
-            count += 1
+    tneg = TdS[:maxTind,0]
+    dsneg = TdS[:maxTind,1]
+    Vneg = V[:maxTind]
+    
+    tpos = TdS[maxTind:,0]
+    dspos = TdS[maxTind:,1]
+    Vpos = V[maxTind:]
+    
+    tpos, tposind = unique(tpos,return_index=True)
+    tneg, tnegind = unique(tneg,return_index=True)
+    
+    Vneg = Vneg[tnegind]
+    Vpos = Vpos[tposind]
+    
+    Tsmpos = linspace(tpos[0],tpos[-1],100)
+    tck = interpolate.splrep(tpos, dspos[tposind], s=0)
+    dSpos_sm = interpolate.splev(Tsmpos, tck, der=0)
+    
+    Tsmneg = linspace(tneg[0],tneg[-1],100)
+    tck = interpolate.splrep(tneg, dsneg[tnegind], s=0)
+    dSneg_sm = interpolate.splev(Tsmneg, tck, der=0)
+    
+    tck = interpolate.splrep(tneg, Vneg, s=0)
+    Vneg_sm = interpolate.splev(Tsmneg, tck, der=0)
+    
+    tck = interpolate.splrep(tpos, Vpos, s=0)
+    Vpos_sm = interpolate.splev(Tsmpos, tck, der=0)
 
-    # Convert to numpy arrays
-    Tnew = array(Tnew)
-    Vnew = array(Vnew)
-
-    # Now fix the V=0 point by adding in a value
-    V0m1 = Vnew[Vnew<0][-1]
-    V0m2 = Vnew[Vnew<0][-2]
-    T0m1 = Tnew[Vnew<0][-1]
-    T0m2 = Tnew[Vnew<0][-2]
-    T0 =  T0m1 + abs(V0m1)*(T0m1-T0m2)/(V0m1-V0m2)
-    print("V=0 transition temperature %g K" %T0)
-
-    # Create final arrays to return
-    Treturn = concatenate([array([0]), Tnew[Vnew<0] , array([T0]), Tnew[Vnew>0], array([0]) ])
-    Vreturn = concatenate([array([V[0]]), Vnew[Vnew<0] , array([0.]), Vnew[Vnew>0], array([Vnew[-1]]) ])
+    Treturn = concatenate([ Tsmneg,  Tsmpos[::-1]])
+    Vreturn = concatenate([Vneg_sm, Vpos_sm[::-1]])
 
     return Treturn, Vreturn
+
 
 def print_Vt_T300K(Tnew, Vnew):
     """
@@ -166,7 +246,9 @@ def print_Vt_T300K(Tnew, Vnew):
     """
     Vt1 = Vnew[Vnew<0][Tnew[Vnew<0] <= 300][-1]
     Vt2 = Vnew[Vnew>0][Tnew[Vnew>0] <= 300][0]
-    print("Transition Voltages:\n\tVt1(300K) = %8g\n\tVt2(300K) = %8g" %(Vt1,Vt2))
+    T1 =  Tnew[Vnew<0][Tnew[Vnew<0] <= 300][-1]
+    T2 =  Tnew[Vnew>0][Tnew[Vnew>0] <= 300][0]
+    print("Transition Voltages:\n\tVt1(%.2f K) = %8g\n\tVt2(%.2f K) = %8g" %(T1,Vt1,T2,Vt2))
 
 
 def computeQT(V,TV):
@@ -193,32 +275,44 @@ def computeQT(V,TV):
     q2H[q2Hp>=0] = q2Hp[q2Hp>=0] #= (V[V>=0] - 0.59)/38.8507
     q2H[q2Hn<0]  = q2Hn[q2Hn<0] #(V[V<0] + 0.36)/32.8307
     q1Tp = (V - 0.40)/36.8776
- 
+
     return q2H, q1Tp
-    
+
 if __name__ == '__main__':
     plotSupFigs = False  # Option to plot supporting figures
     plotFigure4 = True   # Option to plot Figure 4
     
-    thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
-    thermaltp = '../../data/thermal_properties/phonon/1Tp/thermal.dat'
-    elentropy = '../../data/thermal_properties/electron/entropy.dat'
+    thermal2h = '/Users/rehnd/Dropbox/Research/papers/mote2-pcm/github/data/thermal_properties/phonon/2H/thermal.dat'
+    thermaltp = '/Users/rehnd/Dropbox/Research/papers/mote2-pcm/github/data/thermal_properties/phonon/1Tp/thermal.dat'
+    #elentropy = '../../data/thermal_properties/electron/entropy.dat'
+    elentropy2H  = "entropy2H.dat"
+    elentropy1Tp = "entropyTp.dat"
+    
+    Tph, Sph, Sel_2h, Sel_1tp = getTotalEntropy(thermal2h,thermaltp,elentropy2H, elentropy1Tp)
+    dSph = Sph[:,1]-Sph[:,0]  # meV/K/f.u.
 
-    T, S = getTotalEntropy(thermal2h,thermaltp,elentropy)
-    dS = S[:,1]-S[:,0]  # meV/K/f.u.
+    #T = linspace(0,1000,len(dSph))
+    #intdS = integrate_dS(T,dS) # eV/f.u.
 
-    T = linspace(0,1000,len(dS))
-    intdS = integrate_dS(T,dS) # eV/f.u.
+    V, dQ, intdQ, sig2h, sigTp = integrate_dQ()
+    ch_Sel = arange(-0.05, 0.101,0.01)
+    T_Sel = array([0,20,40,60,80,100,120,140,160,180,200,300,400,500,600,700,800,900,1000])
 
-    V, dQ, intdQ = integrate_dQ()
+    if ('TV.dat' in os.listdir('.') and 'TdS.dat' in os.listdir('.')):
+        TofV = genfromtxt('TV.dat')
+        TdS = genfromtxt('TdS.dat')
+    else:
+        TofV, TdS = computeTofV(intdQ, T_Sel, V, sig2h, sigTp, Sel_2h, Sel_1tp, ch_Sel, T_Sel, Tph, dSph)
+        #saveTV = zeros([len(Tnew),2])
+        #saveTV[:,0] = Vnew
+        #saveTV[:,1] = Tnew
+        #savetxt('TV.dat', saveTV)
+        #savetxt('TdS.dat', TdS)
 
-    TofV = computeTofV(intdS, intdQ, T, V)
-    Tnew, Vnew = smoothTofV(TofV,V)
+        #savetxt("Vfull.dat",V)
 
-    saveTV = zeros([len(Tnew),2])
-    saveTV[:,0] = Vnew
-    saveTV[:,1] = Tnew
-    savetxt('TV.dat', saveTV)
+    
+    Tnew, Vnew = smoothTofV(TofV,V,TdS)
     
     print_Vt_T300K(Tnew,Vnew)
 
@@ -275,7 +369,7 @@ if __name__ == '__main__':
         
     if plotSupFigs:
         figure()
-        plot(T, intdS,lw=lws)
+        plot(Tph, intdS,lw=lws)
         xlim(0,1050)
         ylim(-0.05,0)
         xlabel('$T$ (K)')
