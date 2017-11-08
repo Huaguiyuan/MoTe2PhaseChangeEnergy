@@ -15,7 +15,7 @@
    id="svg3019"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="fig3editfont.svg">
+   sodipodi:docname="fig3.svg">
   <defs
      id="defs3021">
     <inkscape:perspective
@@ -125,7 +125,7 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="331.13856"
+     inkscape:cx="212.1931"
      inkscape:cy="-9.4276753"
      inkscape:document-units="px"
      inkscape:current-layer="g4658"
@@ -543,25 +543,6 @@
            style="font-size:12.5px;-inkscape-font-specification:'DejaVu Sans, Normal';font-family:'DejaVu Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%;">Energy input</tspan></text>
       <text
          sodipodi:linespacing="125%"
-         id="text3862"
-         y="844.117"
-         x="402.83685"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
-         xml:space="preserve"
-         inkscape:export-xdpi="300"
-         inkscape:export-ydpi="300"><tspan
-           y="844.117"
-           x="402.83685"
-           id="tspan3864"
-           sodipodi:role="line"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start">Net energy consumption</tspan><tspan
-           id="tspan3866"
-           y="859.742"
-           x="402.83685"
-           sodipodi:role="line"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start">to change the state</tspan></text>
-      <text
-         sodipodi:linespacing="125%"
          id="text3868"
          y="981.85712"
          x="505.16458"
@@ -579,13 +560,6 @@
            x="505.16458"
            sodipodi:role="line"
            style="font-size:12.5px;-inkscape-font-specification:'DejaVu Sans, Normal';font-family:'DejaVu Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%;">energy</tspan></text>
-      <path
-         inkscape:connector-curvature="0"
-         id="path3874"
-         d="M 560.61153,866.56623 537.92625,850.4786"
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-mid:none;marker-end:url(#Arrow2Mend)"
-         inkscape:export-xdpi="300"
-         inkscape:export-ydpi="300" />
       <path
          inkscape:connector-curvature="0"
          id="path4266"
