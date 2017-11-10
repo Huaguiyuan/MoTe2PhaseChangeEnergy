@@ -2,62 +2,9 @@ from pylab import *
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from scipy import interpolate
-import vaspinput
 import sys
 import os
 rcParams.update({'font.size': 48, 'text.usetex': True})
-
-
-def getEntropy(folders, T, charge):
-    S2H = zeros([len(T),len(charge)])
-    STp = zeros([len(T),len(charge)])
-    
-    basedir = os.getcwd()
-
-    fold = '2H'
-    j = 0
-    for ch in charge:
-        i = 0
-        for temp in T:
-
-            fldr = '%s/%s/ch%.2f/T%04.0f'%(basedir,fold,ch,temp)
-
-            os.system("cd %s; cat OUTCAR | grep 'entropy T' | tail -1 | awk '{print $5}' > ts"%fldr)
-            val  = genfromtxt(fldr + '/ts')
-            S2H[i,j] = val
-            #print(val)
-            i += 1
-
-        # Important: so far S contains T*S => need to divide by T
-        S2H[:,j] = S2H[:,j] / T
-        # Also, the value in OUTCAR is negative, so need to negate it here
-        S2H[:,j] = - S2H[:,j]
-        # Finally, since we have rectangular unit cell with 2 f.u., divide by 2 to get 1 f.u.
-        S2H[:,j] = S2H[:,j] / 2
-        j += 1
-
-    fold = '1Tp'
-    j = 0
-    for ch in charge:
-        i = 0
-        for temp in T:
-
-            fldr = '%s/%s/ch%.2f/T%04.0f'%(basedir,fold,ch,temp)
-
-            os.system("cd %s; cat OUTCAR | grep 'entropy T' | tail -1 | awk '{print $5}' > ts"%fldr)
-            val = genfromtxt(fldr + '/ts')
-            STp[i,j] = val
-            i += 1
-
-        # Important: so far S contains T*S => need to divide by T
-        STp[:,j] = STp[:,j] / T
-        # Also, the value in OUTCAR is negative, so need to negate it here
-        STp[:,j] = - STp[:,j]
-        # Finally, since we have rectangular unit cell with 2 f.u., divide by 2 to get 1 f.u.
-        STp[:,j] = STp[:,j] / 2
-        j += 1
-
-    return S2H, STp
 
 if __name__ == '__main__':
     folders = ['2H', '1Tp']
@@ -75,15 +22,8 @@ if __name__ == '__main__':
     TtoeV = 8.621738e-5
     eV_to_meV = 1000
 
-    if ("entropy2H.dat" in os.listdir('.') and "entropyTp.dat" in os.listdir('.')):
-        S2H = genfromtxt("entropy2H.dat") # Loaded in eV/K/f.u.
-        STp = genfromtxt("entropyTp.dat") # Loaded in eV/K/f.u.
-    else:
-        S2H, STp = getEntropy(folders,T, charge)
-        S2H[isnan(S2H)] = 0.
-        STp[isnan(STp)] = 0.
-        savetxt("entropy2H.dat", S2H) # Save in eV/K/f.u.
-        savetxt("entropyTp.dat", STp) # Save in eV/K/f.u.
+    S2H = genfromtxt("../../data/thermal_properties/electron/charged/entropy2H.dat") # Loaded in eV/K/f.u.
+    STp = genfromtxt("../../data/thermal_properties/electron/charged/entropyTp.dat") # Loaded in eV/K/f.u.
 
     # Interpolation
     runinterpolation = False
