@@ -15,5 +15,7 @@ Next, run:
 	
 	
 This will use `entropy2H.dat` and `entropyTp.dat` to generate two new
-files: `TdS.dat` and `TV.dat`
+files: `TdS.dat` and `TV.dat`. These files represent the values of
+temperature and entropy difference (`TdS.dat`) and temperature and
+voltage (`TV.dat`) along the 2H-1T' phase boundary.
 
