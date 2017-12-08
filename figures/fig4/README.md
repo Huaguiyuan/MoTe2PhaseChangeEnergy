@@ -25,36 +25,4 @@ The phase diagram comes from the Clausius-Clapeyron relation
 
 ![](pics/eq1.png)
 
-
-Rearranging and integrating both sides leads to 
-
-![](pics/eq2.png)
-
-
-Here, we discuss the right side of Equation 2 first, followed by the
-left side. The right side is a simple integral of the entropy
-difference calculated in SI Figure 2.  That integral results in the
-following as a function of temperature T
-
-
-<p align="center"><img src="pics/intdS.png" width=500px></p>
-
-The left-hand side requires integrating \Delta Q, which looks as follows
-
-<p align="center"><img src="pics/dQ.png" width=500px></p>
-
-The integral starting at the negative zero-temperature transition
-voltage looks as follows
-
-<p align="center"><img src="pics/intdQ.png" width=500px></p>
-
-The next step is to try to match values between the integral
-plots. This ends up resulting in a function that qualitiatively looks
-right, but has 'steps' in it, due to the finite number of values in
-the entropy data, which comes in intervals of 10 K. This step behavior
-is shown below
-
-<p align="center"><img src="pics/TofV.png" width=500px></p>
-
-After generating these values, we use a smoothing routine to compute a
-more accurate phase transition curve.
+The entropy difference ∆S depends on both the charge Q and temperature T. The supplementary information of the paper contains numerous details on the calculation.

@@ -1,4 +1,4 @@
-# SI Figure 2
+# SI Figure 3
 
 This figure relies on the data in
 
@@ -6,7 +6,7 @@ This figure relies on the data in
 
 and
 
-`data/thermal_properties/electron`,
+`data/thermal_properties/electron/uncharged`,
 
 specifically the `thermal.dat` files in the `2H` and `1Tp`
 directories of the `phonon` folder and the `entropy.dat` file in the
@@ -15,8 +15,8 @@ directories of the `phonon` folder and the `entropy.dat` file in the
 To generate this figure, run
 
 ``` bash
-$ python sifig2.py
+$ python sifig3.py
 ```
 
-![](sifig2.png)
+![](sifig3.png)
 

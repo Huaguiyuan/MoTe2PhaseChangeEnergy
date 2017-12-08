@@ -1,4 +1,4 @@
-# SI Figure 3
+# SI Figure 5
 
 This figure relies on the data in
 
@@ -10,8 +10,8 @@ phase (plotted here) is negligible in comparison to the phonon entropy.
 To generate this figure, run
 
 ``` bash
-$ python sifig3.py
+$ python sifig5.py
 ```
 
-![](sifig3.png)
+![](sifig5.png)
 

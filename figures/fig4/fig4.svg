@@ -5767,7 +5767,9 @@ AAAAAAAAAAAAAAAANgLqK0lWeRPHdAAAAABJRU5ErkJggg==
 "
        preserveAspectRatio="none"
        height="344.13641"
-       width="482.13165" />
+       width="482.13165"
+       inkscape:export-xdpi="400"
+       inkscape:export-ydpi="400" />
     <image
        y="474.65366"
        x="523.33917"
@@ -10336,6 +10338,8 @@ AElFTkSuQmCC
 "
        preserveAspectRatio="none"
        height="346.87961"
-       width="486" />
+       width="486"
+       inkscape:export-xdpi="400"
+       inkscape:export-ydpi="400" />
   </g>
 </svg>

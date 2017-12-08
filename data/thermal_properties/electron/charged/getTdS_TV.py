@@ -199,10 +199,6 @@ def smoothTofV(T,V, TdS):
     Description:
        TofV has a step-like character, and this returns a 'smoothed' version of it.
     """
-    # Temporary arrays, variables for storage
-    #tds = genfromtxt('TdS.dat')
-    #V   = genfromtxt('Vfull.dat')
- 
     maxTind = TdS[:,0].argmax()
 
     tneg = TdS[:maxTind,0]
@@ -282,11 +278,11 @@ if __name__ == '__main__':
     plotSupFigs = False  # Option to plot supporting figures
     plotFigure4 = True   # Option to plot Figure 4
     
-    thermal2h = '../../data/thermal_properties/phonon/2H/thermal.dat'
-    thermaltp = '../../data/thermal_properties/phonon/1Tp/thermal.dat'
+    thermal2h = '/Users/rehnd/Dropbox/Research/papers/mote2-pcm/github/data/thermal_properties/phonon/2H/thermal.dat'
+    thermaltp = '/Users/rehnd/Dropbox/Research/papers/mote2-pcm/github/data/thermal_properties/phonon/1Tp/thermal.dat'
     #elentropy = '../../data/thermal_properties/electron/entropy.dat'
-    elentropy2H  = "../../data/thermal_properties/electron/charged/entropy2H.dat"
-    elentropy1Tp = "../../data/thermal_properties/electron/charged/entropyTp.dat"
+    elentropy2H  = "entropy2H.dat"
+    elentropy1Tp = "entropyTp.dat"
     
     Tph, Sph, Sel_2h, Sel_1tp = getTotalEntropy(thermal2h,thermaltp,elentropy2H, elentropy1Tp)
     dSph = Sph[:,1]-Sph[:,0]  # meV/K/f.u.
@@ -303,12 +299,12 @@ if __name__ == '__main__':
         TdS = genfromtxt('TdS.dat')
     else:
         TofV, TdS = computeTofV(intdQ, T_Sel, V, sig2h, sigTp, Sel_2h, Sel_1tp, ch_Sel, T_Sel, Tph, dSph)
-        #saveTV = zeros([len(Tnew),2])
-        #saveTV[:,0] = Vnew
-        #saveTV[:,1] = Tnew
-        #savetxt('TV.dat', saveTV)
-        #savetxt('TdS.dat', TdS)
-        #savetxt("Vfull.dat",V)
+        saveTV = zeros([len(Tnew),2])
+        saveTV[:,0] = Vnew
+        saveTV[:,1] = Tnew
+        savetxt('TV.dat', saveTV)
+        savetxt('TdS.dat', TdS)
+
     
     Tnew, Vnew = smoothTofV(TofV,V,TdS)
     
@@ -333,38 +329,6 @@ if __name__ == '__main__':
     top2 = 1000*ones(len(q2H))
     Tnew2 = array(concatenate([zeros(100),Tnew,zeros(100)]))
     
-    # Create figure of T-V phase diagram
-    if plotFigure4:
-        lws=8
-        f = figure()
-        plot(Vnew,Tnew,lw=lws)
-        fill(Vnew,Tnew,color='b',alpha=0.25)
-        fill_between(x,bottom,top,color='g', alpha=0.25)
-        ylim(0,800)
-        xlim(-3,5)
-        xlabel('Voltage (V)')
-        ylabel('Temperature (K)')
-        text(1.6,340,'2H',fontsize=40)
-        text(3.4,480,"1T'",fontsize=40)
-        tick_params(direction='in', width=3, length=6, right='on', top='on')
-        savefig('fig4a.png',dpi=300,bbox_inches='tight')
-        
-        f = figure()
-        plot(q2H,  Tnew2, lw=lws)
-        plot(q1Tp, Tnew2, 'g',lw=lws)
-        fill(q2H,  Tnew2, color='b',alpha=0.25)
-        fill_between(q1Tp,Tnew2,top2, color='g', alpha=0.25)
-        fill_between(q2H,Tnew2,top3, color='r', alpha=0.25)
-        xticks([-0.05,0,0.05,0.1])
-        xlabel('$\sigma$ (e/f.u.)')
-        ylabel('Temperature (K)')
-        xlim(-0.09,0.125)
-        ylim(0,800)
-        text(0.0,340,'2H',fontsize=40)
-        text(-0.055,500,"1T'",fontsize=40)
-        tick_params(direction='in', width=3, length=6, right='on', top='on')
-        savefig('fig4b.png',dpi=300,bbox_inches='tight')
-        
     if plotSupFigs:
         figure()
         plot(Tph, intdS,lw=lws)

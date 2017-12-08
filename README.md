@@ -1,12 +1,12 @@
-# Low energy consumption phase change memory via electrostatic gating of monolayer MoTe2
+# Low energy consumption phase change memory via electrostatic gating of monolayer MoTe<sub>2</sub>
+
+![](data/voltage-charge-diagram/pics/2hto1tp.png)
 
 This repo contains all data and plotting files needed to generate the
-figures found in 
+figures found in
 
-```
-Rehn, D.A., Li, Y., & Reed, E.J. Theoretical potential for low energy consumption phase change memory utilizing
-electrostatically-induced structural phase transitions in 2D materials. (in preparation).
-```
+- Rehn, D. A., Li, Y., Pop, E. & Reed, E. J. Theoretical potential for low energy consumption phase change memory utilizing electrostatically-induced structural phase transitions in 2D materials. _npj Computational Materials_ (2017).
+
 
 In this paper, we compute the energy input required to induce a phase
 transition via electrostatic gating in monolayer MoTe2. 

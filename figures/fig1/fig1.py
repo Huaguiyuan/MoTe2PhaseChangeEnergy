@@ -28,8 +28,8 @@ def findnearest(array,value):
 # Vt2 = 4.4
 
 # Transition voltages at 300K
-Vt1 = -1.05
-Vt2 = 3.51
+Vt1 = -1.06
+Vt2 = 3.65
 
 sigmalower1=sigma[findnearest(v1tp,Vt1)]
 sigmalower2=sigma[findnearest(v2h,Vt1)]
@@ -66,8 +66,8 @@ fill_between(sigma, -3, 6, where=((sigma>=sigmaupper1) & (sigma <= sigmaupper2))
 fill_between(sigma, -3, 6, where=((sigma>=sigmaupper2)),color='g',alpha=al)
 text(-0.017, 4.5,r"$V_t^2(0 \mathrm{K}) = 4.4 \,\mathrm{V}$",fontsize=30) # y= 3.7
 text(0.009,-2.3,r"$V_t^1(0 \mathrm{K}) = -1.6 \,\mathrm{V}$",fontsize=30)
-text(-0.017, 2.8,r"$V_t^2(300 \mathrm{K}) = 3.5 \,\mathrm{V}$",fontsize=30,color='r')
-text(0.001,-0.9,r"$V_t^1(300\mathrm{K}) = -1.0 \,\mathrm{V}$",fontsize=30,color='r')
+text(-0.017, 2.9,r"$V_t^2(300 \mathrm{K}) = 3.6 \,\mathrm{V}$",fontsize=30,color='r')
+text(0.001,-0.9,r"$V_t^1(300\mathrm{K}) = -1.1 \,\mathrm{V}$",fontsize=30,color='r')
 xticks([-0.05,0,0.05,0.1])
 legend(["2H", "1T'"],loc=5,fontsize=38)
 xlim(-0.076, 0.126)
