@@ -4,7 +4,7 @@ rcParams.update({'font.size': 48, 'text.usetex': True})
 
 # Load TdS.dat, which is generated from fig4.py
 #      TdS.dat: Temps in first column, dS in second column
-TdS = genfromtxt('TdS.dat')
+TdS = genfromtxt('../../data/thermal_properties/electron/charged/TdS.dat')
 
 # Get index of maximum Temperature value
 maxTind = TdS[:,0].argmax()
